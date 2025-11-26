@@ -1,0 +1,25 @@
+service:
+  flush: 1
+  log_level: info
+
+pipeline:
+  inputs:
+    - name: tail
+      path: /var/log/syslog
+      tag: log.lv0.system
+      db: ./log_backup.lv0.system.db
+
+  filters:
+    - name: record_modifier
+      match: log.lv0.system
+      record:
+        type: info
+        level: lv0
+        source: system
+
+  outputs:
+    - name: loki
+      match: log.lv0.system
+      labels: type, level, source
+      host: 172.32.0.213
+      port: 3100
