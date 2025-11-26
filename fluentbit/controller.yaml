@@ -2,8 +2,7 @@ service:
   flush: 1
   log_level: info
 
-pipeline:
-  includes:
-    - ./inputs/input.lv0.system.yaml
-    - ./filters/filter.lv0.system.yaml
-    - ./output/output.loki.yaml
+includes:
+  - ./inputs/input.lv0.system.yaml
+  - ./filters/filter.lv0.system.yaml
+  - ./output/output.loki.yaml
