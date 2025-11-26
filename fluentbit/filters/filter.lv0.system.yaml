@@ -3,6 +3,6 @@ pipeline:
     - name: record_modifier
       match: log.lv0.system
       record:
-        type: info
-        level: lv0
-        source: system
+        - type info
+        - level lv0
+        - source system
