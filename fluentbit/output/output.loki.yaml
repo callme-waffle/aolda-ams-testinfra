@@ -2,6 +2,6 @@ pipeline:
   outputs:
     - name: loki
       match: log.*
-      label_keys: type, level, source
+      labels: type=type, level=lv0, source=system
       host: 172.32.0.213
       port: 3100
