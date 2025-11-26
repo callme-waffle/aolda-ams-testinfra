@@ -4,3 +4,11 @@ pipeline:
       path: /var/log/syslog
       tag: log.lv0.system
       db: ./log_backup.lv0.system.db
+      parser: test-aolda-syslog-iso
+      
+  parsers:
+    - name: test-aolda-syslog-iso
+      format: regex
+      regex: ^(?<time>[^ ]+) (?<host>[^ ]+) (?<ident>[^ :]+):? (?<message>.*)$
+      time_key: time
+      time_format: %Y-%m-%dT%H:%M:%S.%L%z
