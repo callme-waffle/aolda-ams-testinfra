@@ -1,0 +1,41 @@
+pipeline:
+  inputs:
+    - name: tail
+      path: /var/log/neutron/neutron-server.log
+      tag: log.lv1.neutron
+      db: ./log_backup.lv1.neutron.server.db
+      parser: test-aolda-neutron-general
+    - name: tail
+      path: /var/log/neutron/neutron-openvswitch-agent.log
+      tag: log.lv1.neutron
+      db: ./log_backup.lv1.neutron.openvswitch.db
+      parser: test-aolda-neutron-general
+    - name: tail
+      path: /var/log/neutron/neutron-metadata-agent.log
+      tag: log.lv1.neutron
+      db: ./log_backup.lv1.neutron.metadata.db
+      parser: test-aolda-neutron-general
+    - name: tail
+      path: /var/log/neutron/neutron-dhcp-agent.log
+      tag: log.lv1.neutron
+      db: ./log_backup.lv1.neutron.dhcp.db
+      parser: test-aolda-neutron-general
+    - name: tail
+      path: /var/log/neutron/neutron-l3-agent.log
+      tag: log.lv1.neutron
+      db: ./log_backup.lv1.neutron.l3.db
+      parser: test-aolda-neutron-general
+    - name: tail
+      path: /var/log/neutron/neutron-ovs-cleanup.log
+      tag: log.lv1.neutron
+      db: ./log_backup.lv1.neutron.ovs-cleanup.db
+      parser: test-aolda-neutron-general
+
+parsers:
+  - name: test-aolda-neutron-general
+    format: regex
+    regex: ^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<pid>\d+) (?<level>[A-Z]+) (?<module>\S+) (?<context>\[.*?\]) (?<message>.*)$
+    time_key: time
+    time_format: '%Y-%m-%d %H:%M:%S.%L'
+    types: pid:integer
+

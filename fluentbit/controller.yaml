@@ -3,6 +3,6 @@ service:
   log_level: info
 
 includes:
-  - ./inputs/input.lv0.system.yaml
-  - ./filters/filter.lv0.system.yaml
+  - ./inputs/input.*.yaml
+  - ./filters/filter.*.yaml
   - ./output/output.loki.yaml

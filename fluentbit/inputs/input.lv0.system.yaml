@@ -5,6 +5,11 @@ pipeline:
       tag: log.lv0.system
       db: ./log_backup.lv0.system.db
       parser: test-aolda-syslog-iso
+    - name: tail
+      path: /var/log/messages
+      tag: log.lv0.system
+      db: ./log_backup.lv0.system.messages.db
+      parser: test-aolda-syslog-iso
 
 parsers:
   - name: test-aolda-syslog-iso

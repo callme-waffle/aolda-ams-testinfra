@@ -1,0 +1,9 @@
+pipeline:
+  filters:
+    - name: record_modifier
+      match: log.lv0.rabbitmq
+      record:
+        - type info
+        - level lv0
+        - source rabbitmq
+

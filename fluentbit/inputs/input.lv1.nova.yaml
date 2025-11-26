@@ -1,0 +1,31 @@
+pipeline:
+  inputs:
+    - name: tail
+      path: /var/log/nova/nova-api.log
+      tag: log.lv1.nova
+      db: ./log_backup.lv1.nova.api.db
+      parser: test-aolda-nova-api
+    - name: tail
+      path: /var/log/nova/nova-scheduler.log
+      tag: log.lv1.nova
+      db: ./log_backup.lv1.nova.scheduler.db
+      parser: test-aolda-nova-general
+    - name: tail
+      path: /var/log/nova/nova-conductor.log
+      tag: log.lv1.nova
+      db: ./log_backup.lv1.nova.conductor.db
+      parser: test-aolda-nova-general
+
+parsers:
+  - name: test-aolda-nova-api
+    format: regex
+    regex: ^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<pid>\d+) (?<level>[A-Z]+) (?<module>\S+) (?<context>\[.*?\]) (?<client_ip>[\d\.]+) "(?<method>[A-Z]+) (?<path>[^"]+) (?<protocol>HTTP\/[\d\.]+)" status: (?<status_code>\d+) len: (?<resp_len>\d+) time: (?<resp_time>[\d\.]+)
+    time_key: time
+    time_format: '%Y-%m-%d %H:%M:%S.%L'
+    types: pid:integer status_code:integer resp_len:integer resp_time:float
+  - name: test-aolda-nova-general
+    format: regex
+    regex: ^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<pid>\d+) (?<level>[A-Z]+) (?<module>\S+) (?<context>\[.*?\]) (?<message>.*)$
+    time_key: time
+    time_format: '%Y-%m-%d %H:%M:%S.%L'
+    types: pid:integer

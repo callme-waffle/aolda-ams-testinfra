@@ -1,0 +1,58 @@
+pipeline:
+  inputs:
+    - name: tail
+      path: /var/log/apache2/access.log
+      tag: log.lv1.apache2
+      db: ./log_backup.lv1.apache2.access.db
+      parser: test-aolda-apache-access
+    - name: tail
+      path: /var/log/apache2/error.log
+      tag: log.lv1.apache2
+      db: ./log_backup.lv1.apache2.error.db
+      parser: test-aolda-apache-error
+    - name: tail
+      path: /var/log/apache2/placement_api_access.log
+      tag: log.lv1.apache2
+      db: ./log_backup.lv1.apache2.placement.access.db
+      parser: test-aolda-apache-access
+    - name: tail
+      path: /var/log/apache2/placement_api_error.log
+      tag: log.lv1.apache2
+      db: ./log_backup.lv1.apache2.placement.error.db
+      parser: test-aolda-placement-error
+    - name: tail
+      path: /var/log/apache2/keystone_access.log
+      tag: log.lv1.apache2
+      db: ./log_backup.lv1.apache2.keystone.access.db
+      parser: test-aolda-apache-access
+    - name: tail
+      path: /var/log/apache2/keystone.log
+      tag: log.lv1.apache2
+      db: ./log_backup.lv1.apache2.keystone.db
+      parser: test-aolda-apache-access
+    - name: tail
+      path: /var/log/apache2/other_vhosts_access.log
+      tag: log.lv1.apache2
+      db: ./log_backup.lv1.apache2.other.db
+      parser: test-aolda-apache-access
+
+parsers:
+  - name: test-aolda-apache-access
+    format: regex
+    regex: ^(?<client_ip>[\d\.]+) - - \[(?<time>[^\]]+)\] "(?<method>[A-Z]+) (?<path>[^"]+) (?<protocol>HTTP\/[\d\.]+)" (?<status_code>\d+) (?<resp_len>\d+)(?: "(?<referer>[^"]*)" "(?<user_agent>[^"]*)")?
+    time_key: time
+    time_format: '%d/%b/%Y:%H:%M:%S %z'
+    types: status_code:integer resp_len:integer
+  - name: test-aolda-apache-error
+    format: regex
+    regex: ^\[(?<time>[^\]]+)\] \[(?<level>[^\]]+)\] \[(?<module>[^\]]+)\] \[pid (?<pid>\d+):tid (?<tid>\d+)\] \[remote (?<remote_ip>[\d\.]+):(?<remote_port>\d+)\] (?<level2>[A-Z]+) (?<message>.*)$
+    time_key: time
+    time_format: '%a %b %d %H:%M:%S.%L %Y'
+    types: pid:integer tid:integer remote_port:integer
+  - name: test-aolda-placement-error
+    format: regex
+    regex: ^(?<time1>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6}) (?<time2>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<pid>\d+) (?<level>[A-Z]+) (?<module>\S+) (?<context>\[.*?\]) (?<client_ip>[\d\.]+) "(?<method>[A-Z]+) (?<path>[^"]+)" status: (?<status_code>\d+) len: (?<resp_len>\d+) microversion: (?<microversion>[\d\.]+)
+    time_key: time2
+    time_format: '%Y-%m-%d %H:%M:%S.%L'
+    types: pid:integer status_code:integer resp_len:integer microversion:float
+

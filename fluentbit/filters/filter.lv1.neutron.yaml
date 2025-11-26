@@ -1,0 +1,9 @@
+pipeline:
+  filters:
+    - name: record_modifier
+      match: log.lv1.neutron
+      record:
+        - type info
+        - level lv1
+        - source neutron
+

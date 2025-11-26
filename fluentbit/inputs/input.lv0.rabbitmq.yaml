@@ -1,0 +1,21 @@
+pipeline:
+  inputs:
+    - name: tail
+      path: /var/log/rabbitmq/rabbit@*.log
+      tag: log.lv0.rabbitmq
+      db: ./log_backup.lv0.rabbitmq.db
+      parser: test-aolda-rabbitmq
+    - name: tail
+      path: /var/log/rabbitmq/rabbit@*-sasl.log
+      tag: log.lv0.rabbitmq
+      db: ./log_backup.lv0.rabbitmq.sasl.db
+      parser: test-aolda-rabbitmq
+
+parsers:
+  - name: test-aolda-rabbitmq
+    format: regex
+    regex: ^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) \[(?<level>[^\]]+)\] (?<message>.*)$
+    time_key: time
+    time_format: '%Y-%m-%d %H:%M:%S.%L'
+    types: {}
+

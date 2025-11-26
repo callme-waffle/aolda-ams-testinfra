@@ -1,0 +1,31 @@
+pipeline:
+  inputs:
+    - name: tail
+      path: /var/log/mysql/error.log
+      tag: log.lv0.mysql
+      db: ./log_backup.lv0.mysql.error.db
+      parser: test-aolda-mysql
+    - name: tail
+      path: /var/log/mysql/mysql.log
+      tag: log.lv0.mysql
+      db: ./log_backup.lv0.mysql.mysql.db
+      parser: test-aolda-mysql
+    - name: tail
+      path: /var/log/mariadb/mariadb.log
+      tag: log.lv0.mysql
+      db: ./log_backup.lv0.mysql.mariadb.db
+      parser: test-aolda-mysql
+    - name: tail
+      path: /var/log/mariadb/error.log
+      tag: log.lv0.mysql
+      db: ./log_backup.lv0.mysql.mariadb.error.db
+      parser: test-aolda-mysql
+
+parsers:
+  - name: test-aolda-mysql
+    format: regex
+    regex: ^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) (?<pid>\d+) \[(?<level>[^\]]+)\] (?<message>.*)$
+    time_key: time
+    time_format: '%Y-%m-%d %H:%M:%S'
+    types: pid:integer
+
