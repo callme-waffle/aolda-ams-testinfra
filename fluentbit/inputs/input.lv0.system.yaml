@@ -1,0 +1,6 @@
+pipeline:
+  inputs:
+    - name: tail
+      path: /var/log/syslog
+      tag: log.lv0.system
+      db: ./log_backup.lv0.system.db

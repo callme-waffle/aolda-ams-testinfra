@@ -1,0 +1,8 @@
+pipeline:
+  filters:
+    - name: record_modifier
+      match: log.lv0.system
+      record:
+        type: info
+        level: lv0
+        source: system
