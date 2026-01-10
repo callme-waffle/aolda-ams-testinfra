@@ -9,7 +9,7 @@ pipeline:
 parsers:
   - name: test-aolda-openstack-apilog-iso
     format: regex
-    regex: ^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<pid>\d+) (?<level>[A-Z]+) (?<module>\S+) (?<context>\[.*?\]) (?<client_ip>[\d\.]+) "(?<method>[A-Z]+) (?<path>.*?) (?<protocol>HTTP\/[\d\.]+)" status: (?<status_code>\d+) len: (?<resp_len>\d+) time: (?<resp_time>[\d\.]+)
+    regex: '^(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}) (?<pid>\d+) (?<level>[A-Z]+) (?<module>\S+) (?<context>\[.*?\]) (?<client_ip>[\d\.]+) "(?<method>[A-Z]+) (?<path>.*?) (?<protocol>HTTP\/[\d\.]+)" status: (?<status_code>\d+) len: (?<resp_len>\d+) time: (?<resp_time>[\d\.]+)'
     time_key: time
     time_format: '%Y-%m-%dT%H:%M:%S.%L%z'
     types: pid:integer status_code:integer resp_len:integer resp_time:float
