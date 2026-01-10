@@ -3,5 +3,5 @@ pipeline:
     - name: loki
       match: log.*
       labels: type=type, level=level, source=source
-      host: 172.32.0.213
+      host: 172.32.0.247
       port: 3100
